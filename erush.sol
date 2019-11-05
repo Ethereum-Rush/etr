@@ -11,7 +11,8 @@ contract EthereumRush {
     uint256 public totalSupply;
     address public fundsWallet;
     uint256 public maximumTarget;
-    unint256 public lastBlock;
+    uint256 public lastBlock;
+    uint256 public rewardTimes;
 
 
     mapping (address => uint256) public balanceOf;
@@ -140,23 +141,25 @@ contract EthereumRush {
       if(amount > 0) {
       if(numberofminer() < 0) {
         //genesis block
+        lastBlock = 1
+        maximumTarget = balanceOf[msg.sender]
+        require(stockdetails[msg.sender].time == 0, 604);
+        manager.transfer(msg.value);
+        stockdetails[msg.sender].stocktime = now;
+        stockdetails[msg.sender].stockamount = balanceOf[msg.sender];
+        stockdetails[msg.sender].blocknumber = lastBlock;
+        listofminers.push(msg.sender) - 1;
       }
       if(balanceOf[msg.sender] < maximumTarget*0.01) {
         //its can not be small than one percent of maximumTarget
         return 504
       } else if(balanceOf[msg.sender] > maximumTarget*0.01) {
-        maximumTarget = amount
-
-        //uint256 stocktime;
-        //uint256 stockamount;
-        //uint256 blocknumber;
-
+        maximumTarget = amount;
         require(stockdetails[msg.sender].time == 0, 604);
         manager.transfer(msg.value);
         stockdetails[msg.sender].stocktime = now;
-        stockdetails[msg.sender].stockamount = uMessage;
-        stockdetails[msg.sender].blocknumber = uMessage;
-
+        stockdetails[msg.sender].stockamount = balanceOf[msg.sender];
+        stockdetails[msg.sender].blocknumber = lastBlock;
         listofminers.push(msg.sender) - 1;
       } else {
         //thats means new amount and maximumTarget is equals its not possible.
