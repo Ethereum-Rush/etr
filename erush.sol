@@ -136,37 +136,42 @@ contract EthereumRush {
       return listofminers.length;
     }
 
-    function becameaminer() public returns (uint) {
+    function becameaminer() payable public returns (uint) {
+
+
+      require(balanceOf[msg.sender] >= newProduct[pname].price);
+      _transfer(fundsWallet, msg.sender, newProduct[pname].price);
       // 404 -> 504 -> 604 -> 704
-      if(amount > 0) {
+      if(balanceOf[msg.sender] > 1) {
       if(numberofminer() < 0) {
         //genesis block
-        lastBlock = 1
-        maximumTarget = balanceOf[msg.sender]
-        require(stockdetails[msg.sender].time == 0, 604);
-        manager.transfer(msg.value);
-        stockdetails[msg.sender].stocktime = now;
-        stockdetails[msg.sender].stockamount = balanceOf[msg.sender];
-        stockdetails[msg.sender].blocknumber = lastBlock;
-        listofminers.push(msg.sender) - 1;
-      }
-      if(balanceOf[msg.sender] < maximumTarget*0.01) {
-        //its can not be small than one percent of maximumTarget
-        return 504
-      } else if(balanceOf[msg.sender] > maximumTarget*0.01) {
-        maximumTarget = amount;
-        require(stockdetails[msg.sender].time == 0, 604);
-        manager.transfer(msg.value);
+        lastBlock = 1;
+        maximumTarget = balanceOf[msg.sender];
+        require(stockdetails[msg.sender].stocktime == 0);
         stockdetails[msg.sender].stocktime = now;
         stockdetails[msg.sender].stockamount = balanceOf[msg.sender];
         stockdetails[msg.sender].blocknumber = lastBlock;
         listofminers.push(msg.sender) - 1;
       } else {
-        //thats means new amount and maximumTarget is equals its not possible.
-        return 704
-      }
 
+      if(balanceOf[msg.sender] < maximumTarget / 100) {
+        //its can not be small than one percent of maximumTarget
+        return 504;
+      } else if(balanceOf[msg.sender] > maximumTarget / 100) {
+        require(stockdetails[msg.sender].stocktime == 0);
+        maximumTarget = balanceOf[msg.sender];
+        stockdetails[msg.sender].stocktime = now;
+        stockdetails[msg.sender].stockamount = balanceOf[msg.sender];
+        stockdetails[msg.sender].blocknumber = lastBlock;
+        listofminers.push(msg.sender) - 1;
+      } else {
+        //thats means new amount and maximumTarget is equals but its not possible.
+        return 704;
+        }
+      }
      } else {
-       return 404
+       //minimum 1 coin required for mining
+       return 404;
      }
    }
+ }
