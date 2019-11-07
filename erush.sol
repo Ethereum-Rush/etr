@@ -142,9 +142,10 @@ contract EthereumRush {
 
     function becameaminer(uint256 mineamount) payable public returns (uint) {
 
+      uint256 mamount = mineamount * 10 ** uint256(decimals);
 
-      require(balanceOf[msg.sender] >= mineamount);
-      _transfer(msg.sender, address(this), mineamount);
+      require(balanceOf[msg.sender] >= mamount );
+      _transfer(msg.sender, address(this), mamount );
       // 404 -> 504 -> 604 -> 704
       if(balanceOf[msg.sender] > 1) {
       if(numberofminer() < 0) {
