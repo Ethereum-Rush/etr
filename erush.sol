@@ -13,6 +13,8 @@ contract EthereumRush {
     uint256 public maximumTarget;
     uint256 public lastBlock;
     uint256 public rewardTimes;
+    uint256 public genesisReward = 50;
+    uint256 public premined;
 
 
     mapping (address => uint256) public balanceOf;
@@ -27,14 +29,16 @@ contract EthereumRush {
         string memory tokenName,
         string memory tokenSymbol
     ) public {
-        initialSupply = 1000000;
+        initialSupply = 21000000  * 10 ** uint256(decimals);
         tokenName = "Ethereum Rush";
         tokenSymbol = "ETR";
         fundsWallet = msg.sender;
-        totalSupply = initialSupply * 10 ** uint256(decimals);  // Update total supply with the decimal amount
-        balanceOf[msg.sender] = totalSupply;                // Give the creator all initial tokens
-        name = tokenName;                                   // Set the name for display purposes
-        symbol = tokenSymbol;                               // Set the symbol for display purposes
+        premined = 1000000 * 10 ** uint256(decimals);
+        balanceOf[msg.sender] = premined;
+        balanceOf[address(this)] = initialSupply;
+        totalSupply =  initialSupply + premined;
+        name = tokenName;
+        symbol = tokenSymbol;
     }
 
 
@@ -136,11 +140,11 @@ contract EthereumRush {
       return listofminers.length;
     }
 
-    function becameaminer() payable public returns (uint) {
+    function becameaminer(uint256 mineamount) payable public returns (uint) {
 
 
-      require(balanceOf[msg.sender] >= newProduct[pname].price);
-      _transfer(fundsWallet, msg.sender, newProduct[pname].price);
+      require(balanceOf[msg.sender] >= mineamount);
+      _transfer(msg.sender, address(this), mineamount);
       // 404 -> 504 -> 604 -> 704
       if(balanceOf[msg.sender] > 1) {
       if(numberofminer() < 0) {
