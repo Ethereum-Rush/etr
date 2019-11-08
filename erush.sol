@@ -33,8 +33,8 @@ contract EthereumRush {
         tokenName = "Ethereum Rush";
         tokenSymbol = "ETR";
         lastBlock = 1;
-        genesisReward = 50;
-        maximumTarget = 100;
+        genesisReward = 50  * 10 ** uint256(decimals);
+        maximumTarget = 100  * 10 ** uint256(decimals);
         fundsWallet = msg.sender;
         premined = 1000000 * 10 ** uint256(decimals);
         balanceOf[msg.sender] = premined;
@@ -149,26 +149,16 @@ contract EthereumRush {
 
     function becameaminer(uint256 mineamount) payable public returns (uint) {
 
-      uint256 newMineAmount = mineamount * 10 ** uint256(decimals);
-      //require(balanceOf[msg.sender] >= newMineAmount );
-      //_transfer(msg.sender, address(this), newMineAmount);
-      // 404 -> 504 -> 604
-
-      if(balanceOf[msg.sender] < maximumTarget / 100) {
-        //its can not be small than one percent of maximumTarget
-        return 504;
-      } else if(balanceOf[msg.sender] > maximumTarget / 100) {
-        require(stockdetails[lastBlock][nAddrHash()].stocktime != 0);
-        maximumTarget = balanceOf[msg.sender];
-        stockdetails[lastBlock][nAddrHash()].stocktime = now;
-        stockdetails[lastBlock][nAddrHash()].stockamount = balanceOf[msg.sender];
-        stockdetails[lastBlock][nAddrHash()].blocknumber = lastBlock;
-      } else {
-        //thats means new amount and maximumTarget is equals but its not possible.
-        return 604;
-        }
-
-
+      uint256 realMineAmount = mineamount * 10 ** uint256(decimals);
+      require(balanceOf[msg.sender] < maximumTarget / 100); //Minimum maximum targes one percents neccessary.
+      require(balanceOf[msg.sender] > 1 * 10 ** uint256(decimals)); //minimum 1 coin require
+      require(stockdetails[lastBlock][nAddrHash()].stocktime != 0);
+      if(realMineAmount > maximumTarget) {maximumTarget = balanceOf[msg.sender];}
+      stockdetails[lastBlock][nAddrHash()].stocktime = now;
+      stockdetails[lastBlock][nAddrHash()].stockamount = balanceOf[msg.sender];
+      stockdetails[lastBlock][nAddrHash()].blocknumber = lastBlock;
+      _transfer(msg.sender, address(this), realMineAmount);
+      return 200;
    }
 
 
@@ -182,15 +172,6 @@ contract EthereumRush {
        //3. we need to know maximumTarget value
        //4. we need to know users amout end we can calculate reward amount.
 
-
-
-
-
    }
-
-
-
-
-
    //end of the contract
  }
