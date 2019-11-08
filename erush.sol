@@ -115,10 +115,13 @@ contract EthereumRush {
       }
     }
 
+
     struct sdetails {
       uint256 stocktime;
       uint256 stockamount;
     }
+
+    address[] totalminers;
 
     mapping (uint256 => sdetails[]) stockdetails;
 
@@ -130,12 +133,18 @@ contract EthereumRush {
         return uint256(msg.sender) % 10000000;
     }
 
+     function getmaximumAverage() public view returns(uint){
+         return  maximumTarget / totalminers.length;
+    }
+
     function becameaminer(uint256 mineamount) payable public returns (uint) {
       uint256 realMineAmount = mineamount * 10 ** uint256(decimals);
-      require(balanceOf[msg.sender] < maximumTarget / 100); //Minimum maximum targes one percents neccessary.
+      require(balanceOf[msg.sender] < getmaximumAverage() / 100); //Minimum maximum targes one percents neccessary.
       require(balanceOf[msg.sender] > 1 * 10 ** uint256(decimals)); //minimum 1 coin require
       require(stockdetails[lastBlock][nAddrHash()].stocktime != 0);
-      if(realMineAmount > maximumTarget) {maximumTarget = balanceOf[msg.sender];}
+      maximumTarget += maximumTarget + realMineAmount;
+      totalminers.push(msg.sender);
+      //if(realMineAmount > getmaximumTarget()) {}
       stockdetails[lastBlock][nAddrHash()].stocktime = now;
       stockdetails[lastBlock][nAddrHash()].stockamount = balanceOf[msg.sender];
       _transfer(msg.sender, address(this), realMineAmount);
@@ -152,5 +161,8 @@ contract EthereumRush {
        return 200;
 
    }
+
+
+   //endminingfunction is neccessary.
    //end of the contract
  }
