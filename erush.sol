@@ -110,12 +110,12 @@ contract EthereumRush {
             return uint(block.difficulty);
     }
 
-    function checkRewardStatus() public view returns (uint256) {
+    function checkRewardStatus() public view returns (bool) {
       uint256 crew = uint(block.difficulty) % 7200;
       if(crew == 1){
-        return crew;
+        return true;
       } else {
-        return crew;
+        return false;
       }
     }
 
@@ -179,4 +179,25 @@ contract EthereumRush {
        return 404;
      }
    }
+
+
+
+
+   function getmyreward() public view returns (uint256)  {
+       require(checkRewardStatus() == true);
+       //miner can get his money but we need to know some detaiils at the here
+       //1. we need to know block number.
+       //2. we need to know totaluser numner in this periot.
+       //3. we need to know maximumTarget value
+       //4. we need to know users amout end we can calculate reward amount.
+
+
+
+   }
+
+
+
+
+
+   //end of the contract
  }
