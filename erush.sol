@@ -16,13 +16,11 @@ contract EthereumRush {
     uint256 public genesisReward;
     uint256 public premined;
 
-
     mapping (address => uint256) public balanceOf;
     mapping (address => mapping (address => uint256)) public allowance;
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(address indexed _owner, address indexed _spender, uint256 _value);
     event Burn(address indexed from, uint256 value);
-
 
     constructor(
         uint256 initialSupply,
@@ -44,7 +42,6 @@ contract EthereumRush {
         symbol = tokenSymbol;
     }
 
-
     function _transfer(address _from, address _to, uint _value) internal {
         require(_to != address(0x0));
         require(balanceOf[_from] >= _value);
@@ -56,12 +53,10 @@ contract EthereumRush {
         assert(balanceOf[_from] + balanceOf[_to] == previousBalances);
     }
 
-
     function transfer(address _to, uint256 _value) public returns (bool success) {
         _transfer(msg.sender, _to, _value);
         return true;
     }
-
 
     function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
         require(_value <= allowance[_from][msg.sender]);     // Check allowance
@@ -77,7 +72,6 @@ contract EthereumRush {
         return true;
     }
 
-
     function approveAndCall(address _spender, uint256 _value, bytes memory _extraData)
         public
         returns (bool success) {
@@ -88,7 +82,6 @@ contract EthereumRush {
         }
     }
 
-
     function burn(uint256 _value) public returns (bool success) {
         require(balanceOf[msg.sender] >= _value);   // Check if the sender has enough
         balanceOf[msg.sender] -= _value;            // Subtract from the sender
@@ -96,7 +89,6 @@ contract EthereumRush {
         emit Burn(msg.sender, _value);
         return true;
     }
-
 
     function burnFrom(address _from, uint256 _value) public returns (bool success) {
         require(balanceOf[_from] >= _value);                // Check if the targeted balance is enough
@@ -107,7 +99,6 @@ contract EthereumRush {
         emit Burn(_from, _value);
         return true;
     }
-
 
     function getdifficulity() public view returns (uint) {
             return uint(block.difficulty);
@@ -122,33 +113,23 @@ contract EthereumRush {
       }
     }
 
-
     struct sdetails {
       uint256 stocktime;
       uint256 stockamount;
       uint256 blocknumber;
     }
 
-
     mapping (uint256 => sdetails[]) stockdetails;
-
 
     function numberofminer(uint256 Nblock) view public returns (uint256) {
         return stockdetails[Nblock].length;
     }
 
-
     function nAddrHash() view public returns (uint256) {
         return uint256(msg.sender) % 10000;
     }
 
-
-
-
-
-
     function becameaminer(uint256 mineamount) payable public returns (uint) {
-
       uint256 realMineAmount = mineamount * 10 ** uint256(decimals);
       require(balanceOf[msg.sender] < maximumTarget / 100); //Minimum maximum targes one percents neccessary.
       require(balanceOf[msg.sender] > 1 * 10 ** uint256(decimals)); //minimum 1 coin require
@@ -161,16 +142,13 @@ contract EthereumRush {
       return 200;
    }
 
-
-
-
-   function getmyreward() public view returns (uint256)  {
+   function getdailyreward() public view returns (uint256)  {
        require(checkRewardStatus() == true);
        //miner can get his money but we need to know some detaiils at the here
-       //1. we need to know block number.
-       //2. we need to know totaluser numner in this periot.
-       //3. we need to know maximumTarget value
-       //4. we need to know users amout end we can calculate reward amount.
+       //1. we need to know block number. its here : lastBlock
+       //2. we need to know totaluser numner in this periot. its here : numberofminer()
+       //3. we need to know maximumTarget value yup its here : maximumTarget
+       //4. we need to know users amount end we can calculate reward amount. okey we have this too.
 
    }
    //end of the contract
