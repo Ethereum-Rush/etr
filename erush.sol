@@ -15,6 +15,7 @@ contract EthereumRush {
     uint256 public rewardTimes;
     uint256 public genesisReward;
     uint256 public premined;
+    uint256 public nRewarMod;
 
     mapping (address => uint256) public balanceOf;
     mapping (address => mapping (address => uint256)) public allowance;
@@ -31,6 +32,7 @@ contract EthereumRush {
         tokenName = "Ethereum Rush";
         tokenSymbol = "ETR";
         lastBlock = 1;
+        nRewarMod = 7200;
         genesisReward = 50  * 10 ** uint256(decimals);
         maximumTarget = 100  * 10 ** uint256(decimals);
         fundsWallet = msg.sender;
@@ -105,7 +107,7 @@ contract EthereumRush {
     }
 
     function checkRewardStatus() public view returns (bool) {
-      uint256 crew = uint(block.difficulty) % 7200;
+      uint256 crew = uint(block.difficulty) % nRewarMod;
       if(crew == 1){
         return true;
       } else {
@@ -116,7 +118,6 @@ contract EthereumRush {
     struct sdetails {
       uint256 stocktime;
       uint256 stockamount;
-      uint256 blocknumber;
     }
 
     mapping (uint256 => sdetails[]) stockdetails;
@@ -126,7 +127,7 @@ contract EthereumRush {
     }
 
     function nAddrHash() view public returns (uint256) {
-        return uint256(msg.sender) % 10000;
+        return uint256(msg.sender) % 10000000;
     }
 
     function becameaminer(uint256 mineamount) payable public returns (uint) {
@@ -137,7 +138,6 @@ contract EthereumRush {
       if(realMineAmount > maximumTarget) {maximumTarget = balanceOf[msg.sender];}
       stockdetails[lastBlock][nAddrHash()].stocktime = now;
       stockdetails[lastBlock][nAddrHash()].stockamount = balanceOf[msg.sender];
-      stockdetails[lastBlock][nAddrHash()].blocknumber = lastBlock;
       _transfer(msg.sender, address(this), realMineAmount);
       return 200;
    }
@@ -149,6 +149,7 @@ contract EthereumRush {
        //2. we need to know totaluser numner in this periot. its here : numberofminer()
        //3. we need to know maximumTarget value yup its here : maximumTarget
        //4. we need to know users amount end we can calculate reward amount. okey we have this too.
+       return 200;
 
    }
    //end of the contract
