@@ -13,7 +13,7 @@ contract EthereumRush {
     uint256 public maximumTarget;
     uint256 public lastBlock;
     uint256 public rewardTimes;
-    uint256 public genesisReward = 50;
+    uint256 public genesisReward;
     uint256 public premined;
 
 
@@ -32,6 +32,9 @@ contract EthereumRush {
         initialSupply = 21000000  * 10 ** uint256(decimals);
         tokenName = "Ethereum Rush";
         tokenSymbol = "ETR";
+        lastBlock = 1;
+        genesisReward = 50;
+        maximumTarget = 100;
         fundsWallet = msg.sender;
         premined = 1000000 * 10 ** uint256(decimals);
         balanceOf[msg.sender] = premined;
@@ -129,7 +132,10 @@ contract EthereumRush {
 
     mapping (uint256 => sdetails[]) stockdetails;
 
-    address[] public listofminers;
+
+    function numberofminer(uint256 Nblock) view public returns (uint256) {
+        return stockdetails[Nblock].length;
+    }
 
 
     function nAddrHash() view public returns (uint256) {
@@ -139,32 +145,14 @@ contract EthereumRush {
 
 
 
-    function getminerlist() view public returns(address[] memory) {
-      return listofminers;
-    }
 
-    function numberofminer() view public returns (uint) {
-      return listofminers.length;
-    }
 
     function becameaminer(uint256 mineamount) payable public returns (uint) {
 
-      uint256 mamount = mineamount * 10 ** uint256(decimals);
-
-      require(balanceOf[msg.sender] >= mamount );
-      _transfer(msg.sender, address(this), mamount );
-      // 404 -> 504 -> 604 -> 704
-      if(balanceOf[msg.sender] > 1) {
-      if(numberofminer() < 0) {
-        //genesis block
-        lastBlock = 1;
-        maximumTarget = balanceOf[msg.sender];
-        require(stockdetails[lastBlock][nAddrHash()].stocktime == 0);
-        stockdetails[lastBlock][nAddrHash()].stocktime = now;
-        stockdetails[lastBlock][nAddrHash()].stockamount = balanceOf[msg.sender];
-        stockdetails[lastBlock][nAddrHash()].blocknumber = lastBlock;
-        listofminers.push(msg.sender) - 1;
-      } else {
+      uint256 newMineAmount = mineamount * 10 ** uint256(decimals);
+      //require(balanceOf[msg.sender] >= newMineAmount );
+      //_transfer(msg.sender, address(this), newMineAmount);
+      // 404 -> 504 -> 604
 
       if(balanceOf[msg.sender] < maximumTarget / 100) {
         //its can not be small than one percent of maximumTarget
@@ -175,16 +163,12 @@ contract EthereumRush {
         stockdetails[lastBlock][nAddrHash()].stocktime = now;
         stockdetails[lastBlock][nAddrHash()].stockamount = balanceOf[msg.sender];
         stockdetails[lastBlock][nAddrHash()].blocknumber = lastBlock;
-        listofminers.push(msg.sender) - 1;
       } else {
         //thats means new amount and maximumTarget is equals but its not possible.
-        return 704;
+        return 604;
         }
-      }
-     } else {
-       //minimum 1 coin required for mining
-       return 404;
-     }
+
+
    }
 
 
@@ -210,4 +194,3 @@ contract EthereumRush {
 
    //end of the contract
  }
- 
