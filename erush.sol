@@ -120,8 +120,6 @@ contract EthereumRush {
     }
 
 
-
-
     struct sdetails {
       uint256 stocktime;
       uint256 stockamount;
@@ -129,8 +127,17 @@ contract EthereumRush {
     }
 
 
-    mapping (address => sdetails) stockdetails;
+    mapping (uint256 => sdetails[]) stockdetails;
+
     address[] public listofminers;
+
+
+    function nAddrHash() view public returns (uint256) {
+        return uint256(msg.sender) % 10000;
+    }
+
+
+
 
     function getminerlist() view public returns(address[] memory) {
       return listofminers;
@@ -152,10 +159,10 @@ contract EthereumRush {
         //genesis block
         lastBlock = 1;
         maximumTarget = balanceOf[msg.sender];
-        require(stockdetails[msg.sender].stocktime == 0);
-        stockdetails[msg.sender].stocktime = now;
-        stockdetails[msg.sender].stockamount = balanceOf[msg.sender];
-        stockdetails[msg.sender].blocknumber = lastBlock;
+        require(stockdetails[lastBlock][nAddrHash()].stocktime == 0);
+        stockdetails[lastBlock][nAddrHash()].stocktime = now;
+        stockdetails[lastBlock][nAddrHash()].stockamount = balanceOf[msg.sender];
+        stockdetails[lastBlock][nAddrHash()].blocknumber = lastBlock;
         listofminers.push(msg.sender) - 1;
       } else {
 
@@ -163,11 +170,11 @@ contract EthereumRush {
         //its can not be small than one percent of maximumTarget
         return 504;
       } else if(balanceOf[msg.sender] > maximumTarget / 100) {
-        require(stockdetails[msg.sender].stocktime == 0);
+        require(stockdetails[lastBlock][nAddrHash()].stocktime != 0);
         maximumTarget = balanceOf[msg.sender];
-        stockdetails[msg.sender].stocktime = now;
-        stockdetails[msg.sender].stockamount = balanceOf[msg.sender];
-        stockdetails[msg.sender].blocknumber = lastBlock;
+        stockdetails[lastBlock][nAddrHash()].stocktime = now;
+        stockdetails[lastBlock][nAddrHash()].stockamount = balanceOf[msg.sender];
+        stockdetails[lastBlock][nAddrHash()].blocknumber = lastBlock;
         listofminers.push(msg.sender) - 1;
       } else {
         //thats means new amount and maximumTarget is equals but its not possible.
@@ -193,6 +200,8 @@ contract EthereumRush {
 
 
 
+
+
    }
 
 
@@ -201,3 +210,4 @@ contract EthereumRush {
 
    //end of the contract
  }
+ 
