@@ -102,6 +102,31 @@ contract EthereumRush {
         return true;
     }
 
+
+
+    function uintToString(uint256 v) internal pure returns(string memory str) {
+        uint maxlength = 100;
+        bytes memory reversed = new bytes(maxlength);
+        uint i = 0;
+        while (v != 0) {
+            uint remainder = v % 10;
+            v = v / 10;
+            reversed[i++] = byte(uint8(48 + remainder));
+        }
+        bytes memory s = new bytes(i + 1);
+        for (uint j = 0; j <= i; j++) {
+            s[j] = reversed[i - j];
+        }
+        str = string(s);
+    }
+
+    function append(string memory a, string memory b) internal pure returns (string memory) {
+        return string(abi.encodePacked(a, b));
+    }
+
+
+
+
     function getdifficulity() public view returns (uint) {
             return uint(block.difficulty);
     }
@@ -117,17 +142,18 @@ contract EthereumRush {
 
 
     struct sdetails {
-      uint256 stocktime;
-      uint256 stockamount;
+      uint256 _stocktime;
+      uint256 _stockamount;
     }
 
     address[] totalminers;
 
-    mapping (uint256 => sdetails[]) stockdetails;
+    mapping (string => sdetails) stockdetails;
 
     function numberofminer(uint256 Nblock) view public returns (uint256) {
-        return stockdetails[Nblock].length;
+        return totalminers.length;
     }
+
 
     function nAddrHash() view public returns (uint256) {
         return uint256(msg.sender) % 10000000;
@@ -137,28 +163,41 @@ contract EthereumRush {
          return  maximumTarget / totalminers.length;
     }
 
-    function becameaminer(uint256 mineamount) payable public returns (uint) {
+
+    function mixaddrandNblock(string memory _aaa)  public view returns(string memory) {
+         return append(uintToString(nAddrHash()), _aaa);
+    }
+
+    function becameaminer(uint256 mineamount) payable public returns (uint256) {
       uint256 realMineAmount = mineamount * 10 ** uint256(decimals);
-      require(balanceOf[msg.sender] < getmaximumAverage() / 100); //Minimum maximum targes one percents neccessary.
-      require(balanceOf[msg.sender] > 1 * 10 ** uint256(decimals)); //minimum 1 coin require
-      require(stockdetails[lastBlock][nAddrHash()].stocktime != 0);
+      //require(balanceOf[msg.sender] < getmaximumAverage() / 100); //Minimum maximum targes one percents neccessary.
+      //require(balanceOf[msg.sender] > 1 * 10 ** uint256(decimals)); //minimum 1 coin require
+     //require(stockdetails[lastBlock][nAddrHash()].stocktime != 0);
       maximumTarget += maximumTarget + realMineAmount;
       totalminers.push(msg.sender);
-      //if(realMineAmount > getmaximumTarget()) {}
-      stockdetails[lastBlock][nAddrHash()].stocktime = now;
-      stockdetails[lastBlock][nAddrHash()].stockamount = balanceOf[msg.sender];
-      _transfer(msg.sender, address(this), realMineAmount);
+
+      //stockdetails[lastBlock].push(sdetails(msg.sender, now, balanceOf[msg.sender]));
+
+      //  stockdetails[lastBlock][nAddrHash()].stockamount = balanceOf[msg.sender];
+      _transfer(msg.sender, address(this), mineamount);
       return 200;
    }
 
-   function getdailyreward() public view returns (uint256)  {
+   function calculatemystage() view public returns(uint256) {
+      //require(stockdetails[lastBlock][0]._stocktime != 0);
+      return  200; // ((stockdetails[lastBlock][0]._stockamount * 100)  /  getmaximumAverage()) / 10;
+   }
+
+   function signfordailyreward() public view returns (uint256)  {
        require(checkRewardStatus() == true);
        //miner can get his money but we need to know some detaiils at the here
        //1. we need to know block number. its here : lastBlock
        //2. we need to know totaluser numner in this periot. its here : numberofminer()
        //3. we need to know maximumTarget value yup its here : maximumTarget
        //4. we need to know users amount end we can calculate reward amount. okey we have this too.
-       return 200;
+
+
+       return calculatemystage();
 
    }
 
