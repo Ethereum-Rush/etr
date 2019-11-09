@@ -147,10 +147,16 @@ contract EthereumRush {
       uint256 _stocktime;
       uint256 _stockamount;
     }
-
     address[] totalminers;
+    mapping (address => sdetails) nStockDetails;
 
-    mapping (string => sdetails) stockdetails;
+
+    struct rewarddetails {
+        uint256 _artyr;
+    }
+
+    mapping (string => rewarddetails) nRewardDetails;
+
 
     function numberofminer() view public returns (uint256) {
         return totalminers.length;
@@ -166,7 +172,7 @@ contract EthereumRush {
     }
 
 
-    function mixaddrandNblock()  public view returns(string memory) {
+    function nMixAddrandBlock()  public view returns(string memory) {
          return append(uintToString(nAddrHash()),uintToString(lastBlock));
     }
 
@@ -174,24 +180,24 @@ contract EthereumRush {
       uint256 realMineAmount = mineamount * 10 ** uint256(decimals);
       require(balanceOf[msg.sender] < getmaximumAverage() / 100); //Minimum maximum targes one percents neccessary.
       require(balanceOf[msg.sender] > 1 * 10 ** uint256(decimals)); //minimum 1 coin require
-      require(stockdetails[mixaddrandNblock()]._stocktime != 0);
-      maximumTarget += maximumTarget + realMineAmount;
+      require(nStockDetails[msg.sender]._stocktime != 0);
+      maximumTarget +=  realMineAmount;
+      nStockDetails[msg.sender]._stocktime = now;
+      nStockDetails[msg.sender]._stockamount = mineamount;
       totalminers.push(msg.sender);
-
-      //stockdetails[lastBlock].push(sdetails(msg.sender, now, balanceOf[msg.sender]));
-
-      //  stockdetails[lastBlock][nAddrHash()].stockamount = balanceOf[msg.sender];
       _transfer(msg.sender, address(this), mineamount);
       return 200;
    }
 
-   function calculatemystage() view public returns(uint256) {
-      require(stockdetails[mixaddrandNblock()]._stocktime != 0);
-      return  ((stockdetails[mixaddrandNblock()]._stockamount * 100)  /  getmaximumAverage()) / 10;
-   }
+   //function calculatemystage() view public returns(uint256) {
+//      require(nStockDetails[nMixaddrandNblock()]._stocktime != 0);
+ //     return  ((nStockDetails[msg.sender]._stockamount * 100)  /  getmaximumAverage()) / 10;
+ //  }
 
-   function signfordailyreward() public view returns (uint256)  {
+   function signfordailyreward() public returns (uint256)  {
        require(checkRewardStatus() == true);
+       lastBlock += 1;
+
        //miner can get his money but we need to know some detaiils at the here
        //1. we need to know block number. its here : lastBlock
        //2. we need to know totaluser numner in this periot. its here : numberofminer()
@@ -199,7 +205,7 @@ contract EthereumRush {
        //4. we need to know users amount end we can calculate reward amount. okey we have this too.
 
 
-       return calculatemystage();
+       return 200;///calculatemystage();
 
    }
 
