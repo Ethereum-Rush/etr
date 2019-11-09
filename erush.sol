@@ -121,7 +121,7 @@ contract EthereumRush {
     }
 
     function append(string memory a, string memory b) internal pure returns (string memory) {
-        return string(abi.encodePacked(a, b));
+        return string(abi.encodePacked(a,"-",b));
     }
 
 
@@ -150,13 +150,13 @@ contract EthereumRush {
 
     mapping (string => sdetails) stockdetails;
 
-    function numberofminer(uint256 Nblock) view public returns (uint256) {
+    function numberofminer() view public returns (uint256) {
         return totalminers.length;
     }
 
 
     function nAddrHash() view public returns (uint256) {
-        return uint256(msg.sender) % 10000000;
+        return uint256(msg.sender) % 10000000000;
     }
 
      function getmaximumAverage() public view returns(uint){
@@ -164,8 +164,8 @@ contract EthereumRush {
     }
 
 
-    function mixaddrandNblock(string memory _aaa)  public view returns(string memory) {
-         return append(uintToString(nAddrHash()), _aaa);
+    function mixaddrandNblock()  public view returns(string memory) {
+         return append(uintToString(nAddrHash()),uintToString(lastBlock));
     }
 
     function becameaminer(uint256 mineamount) payable public returns (uint256) {
