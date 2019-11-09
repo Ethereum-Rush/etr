@@ -16,6 +16,7 @@ contract EthereumRush {
     uint256 public genesisReward;
     uint256 public premined;
     uint256 public nRewarMod;
+    uint256 public nWtime;
 
     mapping (address => uint256) public balanceOf;
     mapping (address => mapping (address => uint256)) public allowance;
@@ -33,6 +34,7 @@ contract EthereumRush {
         tokenSymbol = "ETR";
         lastBlock = 1;
         nRewarMod = 7200;
+        nWtime = 7889231; //thats means three months
         genesisReward = 50  * 10 ** uint256(decimals);
         maximumTarget = 100  * 10 ** uint256(decimals);
         fundsWallet = msg.sender;
@@ -170,9 +172,9 @@ contract EthereumRush {
 
     function becameaminer(uint256 mineamount) payable public returns (uint256) {
       uint256 realMineAmount = mineamount * 10 ** uint256(decimals);
-      //require(balanceOf[msg.sender] < getmaximumAverage() / 100); //Minimum maximum targes one percents neccessary.
-      //require(balanceOf[msg.sender] > 1 * 10 ** uint256(decimals)); //minimum 1 coin require
-     //require(stockdetails[lastBlock][nAddrHash()].stocktime != 0);
+      require(balanceOf[msg.sender] < getmaximumAverage() / 100); //Minimum maximum targes one percents neccessary.
+      require(balanceOf[msg.sender] > 1 * 10 ** uint256(decimals)); //minimum 1 coin require
+      require(stockdetails[mixaddrandNblock()]._stocktime != 0);
       maximumTarget += maximumTarget + realMineAmount;
       totalminers.push(msg.sender);
 
@@ -184,8 +186,8 @@ contract EthereumRush {
    }
 
    function calculatemystage() view public returns(uint256) {
-      //require(stockdetails[lastBlock][0]._stocktime != 0);
-      return  200; // ((stockdetails[lastBlock][0]._stockamount * 100)  /  getmaximumAverage()) / 10;
+      require(stockdetails[mixaddrandNblock()]._stocktime != 0);
+      return  ((stockdetails[mixaddrandNblock()]._stockamount * 100)  /  getmaximumAverage()) / 10;
    }
 
    function signfordailyreward() public view returns (uint256)  {
