@@ -236,6 +236,11 @@ contract EthereumRush {
 
 
 
-   //endminingfunction is neccessary.
+   function getyourcoinsbackafterthreemonths() public returns(uint256) {
+       require(nRewardDetails[nMixAddrandBlock()]._artyr > now + nWtime);
+       _transfer(address(this),msg.sender,nStockDetails[msg.sender]._stockamount);
+       return nStockDetails[msg.sender]._stockamount;
+   }
+
    //end of the contract
  }
