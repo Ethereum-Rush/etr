@@ -160,8 +160,14 @@ contract EthereumRush {
     struct nBlockDetails {
         uint256 _bTime;
     }
-
     mapping (uint256 => nBlockDetails) bBlockIteration;
+
+
+  struct activeMiners {
+      address bUser;
+  }
+
+  mapping(uint256 => activeMiners[]) aMiners;
 
 
     function numberofminer() view public returns (uint256) {
@@ -200,15 +206,19 @@ contract EthereumRush {
  //     return  ((nStockDetails[msg.sender]._stockamount * 100)  /  getmaximumAverage()) / 10;
  //  }
 
+
+
+
    function signfordailyreward() public returns (uint256)  {
        require(checkRewardStatus() == true);
-       require(nRewardDetails[nMixAddrandBlock()]._artyr == 0);
+       require(nRewardDetails[nMixAddrandBlock()]._artyr == 0);  //Register this block for reward.
        if(bBlockIteration[lastBlock]._bTime < now + 666){
            lastBlock += 1;
            bBlockIteration[lastBlock]._bTime = now;
        }
 
        nRewardDetails[nMixAddrandBlock()]._artyr = now;
+       aMiners[lastBlock].push(activeMiners(msg.sender));
 
 
        //miner can get his money but we need to know some detaiils at the here
@@ -220,6 +230,16 @@ contract EthereumRush {
        return 200;///calculatemystage();
 
    }
+
+   function getactiveminersnumber() view public returns(uint256) {
+        return aMiners[lastBlock].length;
+   }
+
+
+
+
+
+
 
 
    //endminingfunction is neccessary.
