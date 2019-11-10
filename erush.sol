@@ -147,15 +147,21 @@ contract EthereumRush {
       uint256 _stocktime;
       uint256 _stockamount;
     }
+
+
     address[] totalminers;
+
     mapping (address => sdetails) nStockDetails;
-
-
     struct rewarddetails {
         uint256 _artyr;
     }
-
     mapping (string => rewarddetails) nRewardDetails;
+
+    struct nBlockDetails {
+        uint256 _bTime;
+    }
+
+    mapping (uint256 => nBlockDetails) bBlockIteration;
 
 
     function numberofminer() view public returns (uint256) {
@@ -196,14 +202,20 @@ contract EthereumRush {
 
    function signfordailyreward() public returns (uint256)  {
        require(checkRewardStatus() == true);
-       lastBlock += 1;
+       require(nRewardDetails[nMixAddrandBlock()]._artyr == 0);
+       if(bBlockIteration[lastBlock]._bTime < now + 666){
+           lastBlock += 1;
+           bBlockIteration[lastBlock]._bTime = now;
+       }
+
+       nRewardDetails[nMixAddrandBlock()]._artyr = now;
+
 
        //miner can get his money but we need to know some detaiils at the here
-       //1. we need to know block number. its here : lastBlock
-       //2. we need to know totaluser numner in this periot. its here : numberofminer()
-       //3. we need to know maximumTarget value yup its here : maximumTarget
-       //4. we need to know users amount end we can calculate reward amount. okey we have this too.
-
+       //1. we need to know block number. its here : lastBlock √
+       //2. we need to know totaluser numner in this periot. its here : numberofminer() √
+       //3. we need to know maximumTarget value yup its here : maximumTarget √
+       //4. we need to know users amount end we can calculate reward amount. okey we have this too. √
 
        return 200;///calculatemystage();
 
