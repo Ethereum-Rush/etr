@@ -154,11 +154,13 @@ contract EthereumRush {
     mapping (address => sdetails) nStockDetails;
     struct rewarddetails {
         uint256 _artyr;
+        bool _didGetReward;
     }
     mapping (string => rewarddetails) nRewardDetails;
 
     struct nBlockDetails {
         uint256 _bTime;
+        uint256 _tInvest;
     }
     mapping (uint256 => nBlockDetails) bBlockIteration;
 
@@ -201,12 +203,6 @@ contract EthereumRush {
       return 200;
    }
 
-   //function calculatemystage() view public returns(uint256) {
-//      require(nStockDetails[nMixaddrandNblock()]._stocktime != 0);
- //     return  ((nStockDetails[msg.sender]._stockamount * 100)  /  getmaximumAverage()) / 10;
- //  }
-
-
 
 
    function signfordailyreward() public returns (uint256)  {
@@ -217,28 +213,26 @@ contract EthereumRush {
            bBlockIteration[lastBlock]._bTime = now;
        }
 
+       bBlockIteration[lastBlock]._tInvest += nStockDetails[msg.sender]._stockamount;
        nRewardDetails[nMixAddrandBlock()]._artyr = now;
+       nRewardDetails[nMixAddrandBlock()]._didGetReward = false;
        aMiners[lastBlock].push(activeMiners(msg.sender));
 
 
-       //miner can get his money but we need to know some detaiils at the here
-       //1. we need to know block number. its here : lastBlock √
-       //2. we need to know totaluser numner in this periot. its here : numberofminer() √
-       //3. we need to know maximumTarget value yup its here : maximumTarget √
-       //4. we need to know users amount end we can calculate reward amount. okey we have this too. √
-
-       return 200;///calculatemystage();
+       return 200;
 
    }
 
    function getactiveminersnumber() view public returns(uint256) {
-        return aMiners[lastBlock].length;
+        return aMiners[lastBlock].length; //that function for information.
    }
 
 
-
-
-
+   function getDailyReward() public returns(uint256) {
+      uint256 usersReward = (nStockDetails[msg.sender]._stockamount * 100) / bBlockIteration[lastBlock]._tInvest;
+       _transfer(address(this), msg.sender, usersReward);
+       return 200;
+   }
 
 
 
