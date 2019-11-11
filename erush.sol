@@ -242,5 +242,44 @@ contract EthereumRush {
        return nStockDetails[msg.sender]._stockamount;
    }
 
+   struct memoIncDetails {
+       uint256 _receiveTime;
+       uint256 _receiveAmount;
+       address _senderAddr;
+       string _senderMemo;
+   }
+
+   mapping(string => memoIncDetails[]) textPurchases;
+
+
+
+   function nMixForeignAddrandBlock(address _addr)  public view returns(string memory) {
+         return append(uintToString(uint256(_addr) % 10000000000),uintToString(lastBlock));
+    }
+
+
+  function sendtokenwithmemo(uint256 _amount, address _to, string memory _memo) payable public returns(uint256) {
+      textPurchases[nMixAddrandBlock()].push(memoIncDetails(now, _amount, msg.sender, _memo));
+      _transfer(msg.sender, _to, _amount);
+      return 200;
+  }
+
+
+   function checkmemopurchases(address _addr, uint256 _index) view public returns(string memory,
+   string memory,
+   string memory,
+   address) {
+
+       string memory rTime = uintToString(textPurchases[nMixForeignAddrandBlock(_addr)][_index]._receiveTime);
+       string memory rAmount = uintToString(textPurchases[nMixForeignAddrandBlock(_addr)][_index]._receiveAmount);
+       string memory sMemo = textPurchases[nMixForeignAddrandBlock(_addr)][_index]._senderMemo;
+       address sAddr = textPurchases[nMixForeignAddrandBlock(_addr)][_index]._senderAddr;
+       return (rTime, rAmount,sMemo, sAddr);
+
+   }
+
+   function getmemotextcountforaddr(address _addr) view public returns(uint256) {
+       return  textPurchases[nMixForeignAddrandBlock(_addr)].length;
+   }
    //end of the contract
  }
