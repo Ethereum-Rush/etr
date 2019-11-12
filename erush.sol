@@ -182,7 +182,12 @@ contract EthereumRush {
     }
 
      function getmaximumAverage() public view returns(uint){
-         return  maximumTarget / totalminers.length;
+         if(numberofminer() == 0){
+             return maximumTarget;
+         } else {
+             return maximumTarget / numberofminer();
+         }
+
     }
 
 
