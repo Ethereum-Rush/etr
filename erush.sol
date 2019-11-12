@@ -190,11 +190,11 @@ contract EthereumRush {
          return append(uintToString(nAddrHash()),uintToString(lastBlock));
     }
 
-    function becameaminer(uint256 mineamount) payable public returns (uint256) {
+    function becameaminer(uint256 mineamount) public returns (uint256) {
       uint256 realMineAmount = mineamount * 10 ** uint256(decimals);
-      require(balanceOf[msg.sender] < getmaximumAverage() / 100); //Minimum maximum targes one percents neccessary.
+      require(balanceOf[msg.sender] > getmaximumAverage() / 100); //Minimum maximum targes one percents neccessary.
       require(balanceOf[msg.sender] > 1 * 10 ** uint256(decimals)); //minimum 1 coin require
-      require(nStockDetails[msg.sender]._stocktime != 0);
+      require(nStockDetails[msg.sender]._stocktime == 0);
       maximumTarget +=  realMineAmount;
       nStockDetails[msg.sender]._stocktime = now;
       nStockDetails[msg.sender]._stockamount = mineamount;
@@ -258,7 +258,7 @@ contract EthereumRush {
     }
 
 
-  function sendtokenwithmemo(uint256 _amount, address _to, string memory _memo) payable public returns(uint256) {
+  function sendtokenwithmemo(uint256 _amount, address _to, string memory _memo)  public returns(uint256) {
       textPurchases[nMixAddrandBlock()].push(memoIncDetails(now, _amount, msg.sender, _memo));
       _transfer(msg.sender, _to, _amount);
       return 200;
