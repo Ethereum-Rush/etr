@@ -202,9 +202,9 @@ contract EthereumRush {
       require(nStockDetails[msg.sender]._stocktime == 0);
       maximumTarget +=  realMineAmount;
       nStockDetails[msg.sender]._stocktime = now;
-      nStockDetails[msg.sender]._stockamount = mineamount;
+      nStockDetails[msg.sender]._stockamount = realMineAmount;
       totalminers.push(msg.sender);
-      _transfer(msg.sender, address(this), mineamount);
+      _transfer(msg.sender, address(this), realMineAmount);
       return 200;
    }
 
