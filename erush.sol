@@ -197,7 +197,7 @@ contract EthereumRush {
 
     function becameaminer(uint256 mineamount) public returns (uint256) {
       uint256 realMineAmount = mineamount * 10 ** uint256(decimals);
-      require(balanceOf[msg.sender] > getmaximumAverage() / 100); //Minimum maximum targes one percents neccessary.
+      require(realMineAmount > getmaximumAverage() / 100); //Minimum maximum targes one percents neccessary.
       require(realMineAmount > 1 * 10 ** uint256(decimals)); //minimum 1 coin require
       require(nStockDetails[msg.sender]._stocktime == 0);
       maximumTarget +=  realMineAmount;
