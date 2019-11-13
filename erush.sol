@@ -224,6 +224,15 @@ contract EthereumRush {
    }
 
 
+   function checkAddrMinerStatus(address _addr) view public returns(bool){
+    if(nStockDetails[_addr]._stocktime == 0){
+        return true;
+    } else {
+        return false;
+    }
+
+   }
+
 
    function signfordailyreward() public returns (uint256)  {
        require(checkRewardStatus() == true);
