@@ -234,6 +234,8 @@ contract EthereumRush {
    }
 
 
+
+
    function signfordailyreward() public returns (uint256)  {
        require(checkRewardStatus() == true);
        require(nRewardDetails[nMixAddrandBlock()]._artyr == 0);  //Register this block for reward.
@@ -258,9 +260,12 @@ contract EthereumRush {
 
 
    function getDailyReward() public returns(uint256) {
-      uint256 usersReward = (nStockDetails[msg.sender]._stockamount * 100) / bBlockIteration[lastBlock]._tInvest;
+       require(nRewardDetails[nMixAddrandBlock()]._didGetReward == false);
+       uint256 totalRA = nRewarMod * 10 ** uint256(decimals) / 2 ** (lastBlock/730); //2 years equals 730 days...
+       uint256 usersReward = (totalRA * (nStockDetails[msg.sender]._stockamount * 100) / bBlockIteration[lastBlock]._tInvest) /  100;
+       nRewardDetails[nMixAddrandBlock()]._didGetReward = true;
        _transfer(address(this), msg.sender, usersReward);
-       return 200;
+       return usersReward;
    }
 
 
