@@ -17,6 +17,7 @@ contract EthereumRush {
     uint256 public premined;
     uint256 public nRewarMod;
     uint256 public nWtime;
+    bool public testnet;
 
     mapping (address => uint256) public balanceOf;
     mapping (address => mapping (address => uint256)) public allowance;
@@ -39,6 +40,7 @@ contract EthereumRush {
         maximumTarget = 100  * 10 ** uint256(decimals);
         fundsWallet = msg.sender;
         premined = 1000000 * 10 ** uint256(decimals);
+        testnet = true;
         balanceOf[msg.sender] = premined;
         balanceOf[address(this)] = initialSupply;
         totalSupply =  initialSupply + premined;
@@ -134,12 +136,25 @@ contract EthereumRush {
     }
 
     function checkRewardStatus() public view returns (bool) {
-      uint256 crew = uint(block.difficulty) % nRewarMod;
+      if(testnet == true) {
+
+      uint256 crew = uint(block.difficulty) % 2;
       if(crew == 1){
         return true;
       } else {
         return false;
       }
+
+
+      } else {
+          uint256 crew = uint(block.difficulty) % nRewarMod;
+      if(crew == 1){
+        return true;
+      } else {
+        return false;
+      }
+      }
+
     }
 
 
@@ -264,23 +279,26 @@ contract EthereumRush {
 
 
   function sendtokenwithmemo(uint256 _amount, address _to, string memory _memo)  public returns(uint256) {
-      textPurchases[nMixAddrandBlock()].push(memoIncDetails(now, _amount, msg.sender, _memo));
+      textPurchases[nMixForeignAddrandBlock(_to)].push(memoIncDetails(now, _amount, msg.sender, _memo));
       _transfer(msg.sender, _to, _amount);
       return 200;
   }
 
 
-   function checkmemopurchases(address _addr, uint256 _index) view public returns(string memory,
-   string memory,
+   function checkmemopurchases(address _addr, uint256 _index) view public returns(uint256,
+   uint256,
    string memory,
    address) {
 
-       string memory rTime = uintToString(textPurchases[nMixForeignAddrandBlock(_addr)][_index]._receiveTime);
-       string memory rAmount = uintToString(textPurchases[nMixForeignAddrandBlock(_addr)][_index]._receiveAmount);
+       uint256 rTime = textPurchases[nMixForeignAddrandBlock(_addr)][_index]._receiveTime;
+       uint256 rAmount = textPurchases[nMixForeignAddrandBlock(_addr)][_index]._receiveAmount;
        string memory sMemo = textPurchases[nMixForeignAddrandBlock(_addr)][_index]._senderMemo;
        address sAddr = textPurchases[nMixForeignAddrandBlock(_addr)][_index]._senderAddr;
-       return (rTime, rAmount,sMemo, sAddr);
-
+       if(textPurchases[nMixForeignAddrandBlock(_addr)][_index]._receiveTime == 0){
+            return (0, 0,"0", _addr);
+       }else {
+            return (rTime, rAmount,sMemo, sAddr);
+       }
    }
 
    function getmemotextcountforaddr(address _addr) view public returns(uint256) {
