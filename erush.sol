@@ -4,7 +4,7 @@ interface tokenRecipient {
     function receiveApproval(address _from, uint256 _value, address _token, bytes calldata _extraData) external;
 }
 
-contract TESTVFOUR {
+contract TESTFIVECOIN {
     string public name;
     string public symbol;
     uint8 public decimals = 18;
@@ -31,10 +31,10 @@ contract TESTVFOUR {
         string memory tokenSymbol
     ) public {
         initialSupply = 21000000  * 10 ** uint256(decimals);
-        tokenName = "TESTVFOUR";
-        tokenSymbol = "TVF";
+        tokenName = "TESTFIVECOIN";
+        tokenSymbol = "TFC";
         lastBlock = 1;
-        nRewarMod = 10; //omgbbqhax
+        nRewarMod = 3; //omgbbqhax
         nWtime = 7889231; //thats means three months
         genesisReward = 50  * 10 ** uint256(decimals);
         maximumTarget = 100  * 10 ** uint256(decimals);
@@ -141,10 +141,12 @@ contract TESTVFOUR {
 
 
 
-    function checkRewardStatus() public view returns (uint) {
-        uint256 crew = uint(blockhash(block.number-1)) % nRewarMod;
-        return crew;
+    function checkRewardStatus() public view returns (uint256, uint256) {
+        uint256 crew = uint256(blockhash(block.number-1)) % nRewarMod;
+        return (crew, block.number-1);
     }
+
+
 
 
     struct sdetails {
@@ -225,26 +227,10 @@ contract TESTVFOUR {
 
 
 
-   function signfordailyreward() public returns (uint256)  {
-       require(uint256(blockhash(block.number - 1)) % nRewarMod == 1
-        || uint256(blockhash(block.number - 2)) % nRewarMod == 1
-         || uint256(blockhash(block.number - 3)) % nRewarMod == 1
-          || uint256(blockhash(block.number - 4)) % nRewarMod == 1
-           || uint256(blockhash(block.number - 5)) % nRewarMod == 1
-            || uint256(blockhash(block.number - 6)) % nRewarMod == 1
-             || uint256(blockhash(block.number - 7)) % nRewarMod == 1
-              || uint256(blockhash(block.number - 8)) % nRewarMod == 1
-               || uint256(blockhash(block.number - 9)) % nRewarMod == 1
-                || uint256(blockhash(block.number - 10)) % nRewarMod == 1
-                 || uint256(blockhash(block.number - 11)) % nRewarMod == 1
-                  || uint256(blockhash(block.number - 12)) % nRewarMod == 1
-                   || uint256(blockhash(block.number - 13)) % nRewarMod == 1
-                    || uint256(blockhash(block.number - 14)) % nRewarMod == 1
-                     || uint256(blockhash(block.number - 15)) % nRewarMod == 1
-                      || uint256(blockhash(block.number - 16)) % nRewarMod == 1
-                       || uint256(blockhash(block.number - 17)) % nRewarMod == 1
-                        || uint256(blockhash(block.number - 18)) % nRewarMod == 1
-       );
+   function signfordailyreward(uint256 _bnumber) public returns (uint256)  {
+       require(checkAddrMinerStatus(msg.sender) == true);
+       require((block.number-1) - _bnumber  < 100);
+       require(uint256(blockhash(_bnumber)) % nRewarMod == 1);
        require(nRewardDetails[nMixAddrandBlock()]._artyr == 0);  //Register this block for reward.
 
        if(bBlockIteration[lastBlock]._bTime < now + 180){
@@ -268,6 +254,7 @@ contract TESTVFOUR {
 
 
    function getDailyReward() public returns(uint256) {
+       require(checkAddrMinerStatus(msg.sender) == true);
        require(nRewardDetails[nMixAddrandBlock()]._didGetReward == false);
        uint256 totalRA = nRewarMod * 10 ** uint256(decimals) / 2 ** (lastBlock/5); //2 years equals 730 days... omgbbqhax
        uint256 usersReward = (totalRA * (nStockDetails[msg.sender]._stockamount * 100) / bBlockIteration[lastBlock]._tInvest) /  100;
