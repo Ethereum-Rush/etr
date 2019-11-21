@@ -1,10 +1,10 @@
-pragma solidity >=0.5.12 <0.6.0;
-
+pragma solidity >=0.5.13 <0.6.0;
+//37, 248
 interface tokenRecipient {
     function receiveApproval(address _from, uint256 _value, address _token, bytes calldata _extraData) external;
 }
 
-contract EthereumRush {
+contract TESTVFOUR {
     string public name;
     string public symbol;
     uint8 public decimals = 18;
@@ -17,7 +17,7 @@ contract EthereumRush {
     uint256 public premined;
     uint256 public nRewarMod;
     uint256 public nWtime;
-    bool public testnet;
+
 
     mapping (address => uint256) public balanceOf;
     mapping (address => mapping (address => uint256)) public allowance;
@@ -31,16 +31,15 @@ contract EthereumRush {
         string memory tokenSymbol
     ) public {
         initialSupply = 21000000  * 10 ** uint256(decimals);
-        tokenName = "Ethereum Rush";
-        tokenSymbol = "ETR";
+        tokenName = "TESTVFOUR";
+        tokenSymbol = "TVF";
         lastBlock = 1;
-        nRewarMod = 7200;
+        nRewarMod = 10; //omgbbqhax
         nWtime = 7889231; //thats means three months
         genesisReward = 50  * 10 ** uint256(decimals);
         maximumTarget = 100  * 10 ** uint256(decimals);
         fundsWallet = msg.sender;
         premined = 1000000 * 10 ** uint256(decimals);
-        testnet = true;
         balanceOf[msg.sender] = premined;
         balanceOf[address(this)] = initialSupply;
         totalSupply =  initialSupply + premined;
@@ -131,30 +130,20 @@ contract EthereumRush {
 
 
 
-    function getdifficulity() public view returns (uint) {
-            return uint(block.difficulty);
+    function getblockhash() public view returns (uint256) {
+            return uint256(blockhash(block.number-1));
     }
 
-    function checkRewardStatus() public view returns (bool) {
-      if(testnet == true) {
-
-      uint256 crew = uint(block.difficulty) % 2;
-      if(crew == 1){
-        return true;
-      } else {
-        return false;
-      }
+    function getspesificblockhash(uint256 _blocknumber) public view returns(uint256){
+        return uint256(blockhash(_blocknumber));
+    }
 
 
-      } else {
-          uint256 crew = uint(block.difficulty) % nRewarMod;
-      if(crew == 1){
-        return true;
-      } else {
-        return false;
-      }
-      }
 
+
+    function checkRewardStatus() public view returns (uint) {
+        uint256 crew = uint(blockhash(block.number-1)) % nRewarMod;
+        return crew;
     }
 
 
@@ -237,9 +226,28 @@ contract EthereumRush {
 
 
    function signfordailyreward() public returns (uint256)  {
-       require(checkRewardStatus() == true);
+       require(uint256(blockhash(block.number - 1)) % nRewarMod == 1
+        || uint256(blockhash(block.number - 2)) % nRewarMod == 1
+         || uint256(blockhash(block.number - 3)) % nRewarMod == 1
+          || uint256(blockhash(block.number - 4)) % nRewarMod == 1
+           || uint256(blockhash(block.number - 5)) % nRewarMod == 1
+            || uint256(blockhash(block.number - 6)) % nRewarMod == 1
+             || uint256(blockhash(block.number - 7)) % nRewarMod == 1
+              || uint256(blockhash(block.number - 8)) % nRewarMod == 1
+               || uint256(blockhash(block.number - 9)) % nRewarMod == 1
+                || uint256(blockhash(block.number - 10)) % nRewarMod == 1
+                 || uint256(blockhash(block.number - 11)) % nRewarMod == 1
+                  || uint256(blockhash(block.number - 12)) % nRewarMod == 1
+                   || uint256(blockhash(block.number - 13)) % nRewarMod == 1
+                    || uint256(blockhash(block.number - 14)) % nRewarMod == 1
+                     || uint256(blockhash(block.number - 15)) % nRewarMod == 1
+                      || uint256(blockhash(block.number - 16)) % nRewarMod == 1
+                       || uint256(blockhash(block.number - 17)) % nRewarMod == 1
+                        || uint256(blockhash(block.number - 18)) % nRewarMod == 1
+       );
        require(nRewardDetails[nMixAddrandBlock()]._artyr == 0);  //Register this block for reward.
-       if(bBlockIteration[lastBlock]._bTime < now + 666){
+
+       if(bBlockIteration[lastBlock]._bTime < now + 180){
            lastBlock += 1;
            bBlockIteration[lastBlock]._bTime = now;
        }
@@ -261,7 +269,7 @@ contract EthereumRush {
 
    function getDailyReward() public returns(uint256) {
        require(nRewardDetails[nMixAddrandBlock()]._didGetReward == false);
-       uint256 totalRA = nRewarMod * 10 ** uint256(decimals) / 2 ** (lastBlock/730); //2 years equals 730 days...
+       uint256 totalRA = nRewarMod * 10 ** uint256(decimals) / 2 ** (lastBlock/5); //2 years equals 730 days... omgbbqhax
        uint256 usersReward = (totalRA * (nStockDetails[msg.sender]._stockamount * 100) / bBlockIteration[lastBlock]._tInvest) /  100;
        nRewardDetails[nMixAddrandBlock()]._didGetReward = true;
        _transfer(address(this), msg.sender, usersReward);
