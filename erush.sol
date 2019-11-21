@@ -266,7 +266,8 @@ contract TESTFIVECOIN {
 
 
    function getyourcoinsbackafterthreemonths() public returns(uint256) {
-       require(nRewardDetails[nMixAddrandBlock()]._artyr > now + nWtime);
+       require(nStockDetails[msg.sender]._stocktime + 360 < now  );
+       nStockDetails[msg.sender]._stocktime = 0;
        _transfer(address(this),msg.sender,nStockDetails[msg.sender]._stockamount);
        return nStockDetails[msg.sender]._stockamount;
    }
