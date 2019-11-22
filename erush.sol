@@ -4,7 +4,7 @@ interface tokenRecipient {
     function receiveApproval(address _from, uint256 _value, address _token, bytes calldata _extraData) external;
 }
 
-contract TESTPERFECTCOIN {
+contract ALLTESTWORKSCORR {
     string public name;
     string public symbol;
     uint8 public decimals = 18;
@@ -31,8 +31,8 @@ contract TESTPERFECTCOIN {
         string memory tokenSymbol
     ) public {
         initialSupply = 23592240  * 10 ** uint256(decimals);
-        tokenName = "TESTPERFECTCOIN";
-        tokenSymbol = "TPC";
+        tokenName = "ALLTESTWORKSCORR";
+        tokenSymbol = "ATWC";
         lastBlock = 1;
         nRewarMod = 250; //omgbbqhax
         nWtime = 7889231; //thats means three months
@@ -134,8 +134,9 @@ contract TESTPERFECTCOIN {
             return uint256(blockhash(block.number-1));
     }
 
-    function getspesificblockhash(uint256 _blocknumber) public view returns(uint256){
-        return uint256(blockhash(_blocknumber));
+    function getspesificblockhash(uint256 _blocknumber) public view returns(uint256, uint256){
+        uint256 crew = uint256(blockhash(_blocknumber)) % nRewarMod;
+        return (crew, block.number-1);
     }
 
 
@@ -197,7 +198,7 @@ contract TESTPERFECTCOIN {
     }
 
 
-    function nMixAddrandBlock()  public view returns(string memory) {
+    function nMixAddrandBlock()  private view returns(string memory) {
          return append(uintToString(nAddrHash()),uintToString(lastBlock));
     }
 
@@ -229,15 +230,15 @@ contract TESTPERFECTCOIN {
 
    function signfordailyreward(uint256 _bnumber) public returns (uint256)  {
        require(checkAddrMinerStatus(msg.sender) == true);
-       require((block.number-1) - _bnumber  < 100);
+       require((block.number-1) - _bnumber  <= 100);
        require(uint256(blockhash(_bnumber)) % nRewarMod == 1);
-       require(nRewardDetails[nMixAddrandBlock()]._artyr == 0);  //Register this block for reward.
 
-       if(bBlockIteration[lastBlock]._bTime + 1200 < now){
+        if(bBlockIteration[lastBlock]._bTime + 1800 < now){
            lastBlock += 1;
            bBlockIteration[lastBlock]._bTime = now;
        }
 
+       require(nRewardDetails[nMixAddrandBlock()]._artyr == 0);  //Register this block for reward.
        bBlockIteration[lastBlock]._tInvest += nStockDetails[msg.sender]._stockamount;
        nRewardDetails[nMixAddrandBlock()]._artyr = now;
        nRewardDetails[nMixAddrandBlock()]._didGetReward = false;
@@ -255,7 +256,7 @@ contract TESTPERFECTCOIN {
 
    function getDailyReward(uint256 _bnumber) public returns(uint256) {
        require(checkAddrMinerStatus(msg.sender) == true);
-       require((block.number-1) - _bnumber  > 100);
+       require((block.number-1) - _bnumber  >= 100);
        require(nRewardDetails[nMixAddrandBlock()]._didGetReward == false);
        uint256 totalRA = genesisReward / 2 ** (lastBlock/5);
        uint256 usersReward = (totalRA * (nStockDetails[msg.sender]._stockamount * 100) / bBlockIteration[lastBlock]._tInvest) /  100;
