@@ -1,10 +1,10 @@
 pragma solidity >=0.5.13 <0.6.0;
-//37, 248
+//37, 259, 269
 interface tokenRecipient {
     function receiveApproval(address _from, uint256 _value, address _token, bytes calldata _extraData) external;
 }
 
-contract TESTFIVECOIN {
+contract TESTPERFECTCOIN {
     string public name;
     string public symbol;
     uint8 public decimals = 18;
@@ -30,13 +30,13 @@ contract TESTFIVECOIN {
         string memory tokenName,
         string memory tokenSymbol
     ) public {
-        initialSupply = 21000000  * 10 ** uint256(decimals);
-        tokenName = "TESTFIVECOIN";
-        tokenSymbol = "TFC";
+        initialSupply = 23592240  * 10 ** uint256(decimals);
+        tokenName = "TESTPERFECTCOIN";
+        tokenSymbol = "TPC";
         lastBlock = 1;
-        nRewarMod = 3; //omgbbqhax
+        nRewarMod = 250; //omgbbqhax
         nWtime = 7889231; //thats means three months
-        genesisReward = 50  * 10 ** uint256(decimals);
+        genesisReward = (2**14)* (10**uint256(decimals));
         maximumTarget = 100  * 10 ** uint256(decimals);
         fundsWallet = msg.sender;
         premined = 1000000 * 10 ** uint256(decimals);
@@ -233,7 +233,7 @@ contract TESTFIVECOIN {
        require(uint256(blockhash(_bnumber)) % nRewarMod == 1);
        require(nRewardDetails[nMixAddrandBlock()]._artyr == 0);  //Register this block for reward.
 
-       if(bBlockIteration[lastBlock]._bTime < now + 180){
+       if(bBlockIteration[lastBlock]._bTime + 1200 < now){
            lastBlock += 1;
            bBlockIteration[lastBlock]._bTime = now;
        }
@@ -253,10 +253,11 @@ contract TESTFIVECOIN {
    }
 
 
-   function getDailyReward() public returns(uint256) {
+   function getDailyReward(uint256 _bnumber) public returns(uint256) {
        require(checkAddrMinerStatus(msg.sender) == true);
+       require((block.number-1) - _bnumber  > 100);
        require(nRewardDetails[nMixAddrandBlock()]._didGetReward == false);
-       uint256 totalRA = nRewarMod * 10 ** uint256(decimals) / 2 ** (lastBlock/5); //2 years equals 730 days... omgbbqhax
+       uint256 totalRA = genesisReward / 2 ** (lastBlock/5);
        uint256 usersReward = (totalRA * (nStockDetails[msg.sender]._stockamount * 100) / bBlockIteration[lastBlock]._tInvest) /  100;
        nRewardDetails[nMixAddrandBlock()]._didGetReward = true;
        _transfer(address(this), msg.sender, usersReward);
