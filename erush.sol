@@ -1,15 +1,14 @@
 pragma solidity >=0.5.13 <0.6.0;
-//37, 259, 269
 interface tokenRecipient {
     function receiveApproval(address _from, uint256 _value, address _token, bytes calldata _extraData) external;
 }
 
-contract ALLTESTWORKSCORR {
+contract EthereumRush {
     string public name;
     string public symbol;
     uint8 public decimals = 18;
     uint256 public totalSupply;
-    address public fundsWallet;
+    address payable public fundsWallet;
     uint256 public maximumTarget;
     uint256 public lastBlock;
     uint256 public rewardTimes;
@@ -17,6 +16,7 @@ contract ALLTESTWORKSCORR {
     uint256 public premined;
     uint256 public nRewarMod;
     uint256 public nWtime;
+    uint256 public totalReceived;
 
 
     mapping (address => uint256) public balanceOf;
@@ -31,20 +31,21 @@ contract ALLTESTWORKSCORR {
         string memory tokenSymbol
     ) public {
         initialSupply = 23592240  * 10 ** uint256(decimals);
-        tokenName = "ALLTESTWORKSCORR";
-        tokenSymbol = "ATWC";
+        tokenName = "Ethereum Rush";
+        tokenSymbol = "ETR";
         lastBlock = 1;
-        nRewarMod = 250; //omgbbqhax
-        nWtime = 7889231; //thats means three months
+        nRewarMod = 7200;
+        nWtime = 7889231; //three months
         genesisReward = (2**14)* (10**uint256(decimals));
         maximumTarget = 100  * 10 ** uint256(decimals);
         fundsWallet = msg.sender;
         premined = 1000000 * 10 ** uint256(decimals);
-        balanceOf[msg.sender] = premined;
-        balanceOf[address(this)] = initialSupply;
+        balanceOf[msg.sender] = premined/2;
+        balanceOf[address(this)] = initialSupply + (premined/2);
         totalSupply =  initialSupply + premined;
         name = tokenName;
         symbol = tokenSymbol;
+        totalReceived = 0;
     }
 
     function _transfer(address _from, address _to, uint _value) internal {
@@ -222,8 +223,17 @@ contract ALLTESTWORKSCORR {
     } else {
         return true;
     }
-
    }
+
+   function checkAddrMinerAmount(address _addr) view public returns(uint256){
+    if(nStockDetails[_addr]._stocktime == 0){
+        return 0;
+    } else {
+        return nStockDetails[_addr]._stockamount;
+    }
+   }
+
+
 
 
 
@@ -238,7 +248,7 @@ contract ALLTESTWORKSCORR {
            bBlockIteration[lastBlock]._bTime = now;
        }
 
-       require(nRewardDetails[nMixAddrandBlock()]._artyr == 0);  //Register this block for reward.
+       require(nRewardDetails[nMixAddrandBlock()]._artyr == 0);
        bBlockIteration[lastBlock]._tInvest += nStockDetails[msg.sender]._stockamount;
        nRewardDetails[nMixAddrandBlock()]._artyr = now;
        nRewardDetails[nMixAddrandBlock()]._didGetReward = false;
@@ -258,7 +268,7 @@ contract ALLTESTWORKSCORR {
        require(checkAddrMinerStatus(msg.sender) == true);
        require((block.number-1) - _bnumber  >= 100);
        require(nRewardDetails[nMixAddrandBlock()]._didGetReward == false);
-       uint256 totalRA = genesisReward / 2 ** (lastBlock/5);
+       uint256 totalRA = genesisReward / 2 ** (lastBlock/730);
        uint256 usersReward = (totalRA * (nStockDetails[msg.sender]._stockamount * 100) / bBlockIteration[lastBlock]._tInvest) /  100;
        nRewardDetails[nMixAddrandBlock()]._didGetReward = true;
        _transfer(address(this), msg.sender, usersReward);
@@ -268,7 +278,7 @@ contract ALLTESTWORKSCORR {
 
 
    function getyourcoinsbackafterthreemonths() public returns(uint256) {
-       require(nStockDetails[msg.sender]._stocktime + 360 < now  );
+       require(nStockDetails[msg.sender]._stocktime + nWtime < now  );
        nStockDetails[msg.sender]._stocktime = 0;
        _transfer(address(this),msg.sender,nStockDetails[msg.sender]._stockamount);
        return nStockDetails[msg.sender]._stockamount;
@@ -316,5 +326,18 @@ contract ALLTESTWORKSCORR {
    function getmemotextcountforaddr(address _addr) view public returns(uint256) {
        return  textPurchases[nMixForeignAddrandBlock(_addr)].length;
    }
+
+    function() payable external {
+      if(totalReceived < premined/2) {
+        require(balanceOf[fundsWallet] >= msg.value * 375);
+        _transfer(fundsWallet, msg.sender, msg.value * 375);
+        totalReceived += msg.value * 375;
+        fundsWallet.transfer(msg.value);
+      } else {
+        assert(false);
+      }
+
+    }
+
    //end of the contract
  }
