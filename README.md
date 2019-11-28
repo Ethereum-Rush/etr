@@ -10,9 +10,8 @@ Download miner app and start solo mining in 5 minutes.
 
 - Chat in [ethereumrush-github channel on Gitter](https://gitter.im/ethereum-rush-offical/community).
 - Report bugs, issues or feature requests using [GitHub issues](issues/new).
-# <img src="https://github.com/Ethereum-Rush/ethereum-rush/blob/master/ruchicon.png">
 
-#Ethereum Rush ~ Proof of live consensus protocol details
+## Ethereum Rush ~ Proof of live consensus protocol details
 
 Our offical contract is [0x6F371CA338bbddd0baF719E1D5d0797cCE20774f](https://etherscan.io/address/0x6f371ca338bbddd0baf719e1d5d0797cce20774f). Normally ethereum's have block time	12-15 seconds on average and all blocks have
 their own Hash value this value is hexadecimal and can we can convert a decimal number that hash value.
@@ -25,28 +24,28 @@ Please check signfordailyrewards and getDailyRewards functions first of all when
 onine miner numer after 100 block people can get their rewards using detDailyReward function!
 
 
-#Proof of stake support.
+## Proof of stake support.
 Every miner need to stake any ethereum rush before became a miner using becameaminer function.
 
 I wanna explain that with an example. Think A and B two diffirent miner in the sytem. A miner stake 1000 ETR and B user stake 2000 Ethereum Rush. First year ETR reward equals 2**14 = 16.384 but A miner get 5461 and b miner get 10.922 thats mean B stake 2X and get 2X reward.
 
 
-#Minimum Target and Difficulty
+## Minimum Target and Difficulty
 
 Minimum target is about minimum ethereum rush amount for became a miner.
 Thats calculating total mined (etr amount / totalminer)'s one percent. If A and B miner is stake 1000 ETR thats mean maximum target is equals = 2000/100 =20 thats mean people can not becameaminer with 19 ETR and this is called difficulty.
 Note : In our contract minimum target calling as maximumTarget but this is no  problem for process :(
 
-#Block Halving
+## Block Halving
 
 In ethereum rush block halving became every two years if you check our contract you can see lastBlock variable this is increment daily and if lastBlock equls 365*2 = 730 block reward divide with 2!!!
 
 
 
-#How you can get ethereum rush
+## How you can get ethereum rush
 Please change gas limit as 120000 and if send 1 ethereum to our contract 0x6F371CA338bbddd0baF719E1D5d0797cCE20774f  you can get 375 ETR.
 
-#MEMO FUTURE.
+## MEMO FUTURE.
 
 If you use sendtokenwithmemo function you can send ETHEREUM RUSH with alfenumeric text or thats called as memo.
 EOS and Stellar already have this future but we add memo future for ethereum first time!
@@ -58,7 +57,7 @@ If receiver wanna check their transactions and memos first of all need to call g
 everyting are working correctly and you can check this contract details now!
 
 
-#WHY i generate this contract and why i add memo function to ethereum.
+## WHY i generate this contract and why i add memo function to ethereum.
 
 First of all i have an idea about Automat's. For example if you wanna 'sell' some sandwich with Automat you need pay
 more than 2000 usd for an Automat  why? because they have very complex money checking, money over-calculation, money stock and different process if you wanna sell this with bitcoin or ethereum think this scenario you have a fish sandwich as 1$ and you have a turkey sandwich as 1$ too and one bitcoin and ethereum adress. How this Automat know which sandwich you want?
@@ -72,7 +71,7 @@ all AROUND THE WORLD!
 THX FOR READ.
 
 
-# Download and start minig.
+## Download and start minig.
 
 The Ethereum Mining programs  **[Ethereum RUSH Miner program](https://github.com/Ethereum-Rush/EthereumRushMiner/releases)**, which
 has a Quick Start section.
@@ -82,3 +81,6 @@ Operating system | Status
 Max OS X Darwin  | [![TravisCI](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://travis-ci.org/ethereumrush/ethereumrush-github)
 Ubuntu  | [![TravisCI](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://travis-ci.org/ethereumrush/ethereumrush-github)
 Windows 64         | [![AppVeyor](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://ci.appveyor.com/project/ethereumrush/ethereumrush-github)
+
+
+<img src="https://github.com/Ethereum-Rush/ethereum-rush/blob/master/ruchicon.png">
