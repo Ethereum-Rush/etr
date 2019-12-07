@@ -11,6 +11,19 @@ Download miner app and start solo mining in 5 minutes.
 - Chat in [ethereumrush-github channel on Gitter](https://gitter.im/ethereum-rush-offical/community).
 - Report bugs, issues or feature requests using [GitHub issues](issues/new).
 
+## Download and start minig.
+
+The Ethereum Mining programs  **[Ethereum RUSH Miner program](https://github.com/Ethereum-Rush/EthereumRushMiner/releases)**, which
+has a Quick Start section.
+
+Operating system | Status
+---------------- | ----------
+Max OS X Darwin  | [![TravisCI](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://travis-ci.org/ethereumrush/ethereumrush-github)
+Ubuntu  | [![TravisCI](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://travis-ci.org/ethereumrush/ethereumrush-github)
+Windows 64         | [![AppVeyor](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://ci.appveyor.com/project/ethereumrush/ethereumrush-github)
+
+
+
 ## Ethereum Rush ~ Proof of live consensus protocol details
 
 Our offical contract is [0x6F371CA338bbddd0baF719E1D5d0797cCE20774f](https://etherscan.io/address/0x6f371ca338bbddd0baf719e1d5d0797cce20774f). Normally ethereum's have block time	12-15 seconds on average and all blocks have
@@ -41,10 +54,6 @@ Note : In our contract minimum target calling as maximumTarget but this is no  p
 In ethereum rush block halving became every two years if you check our contract you can see lastBlock variable this is increment daily and if lastBlock equls 365*2 = 730 block reward divide with 2!!!
 
 
-
-## How you can get ethereum rush
-Please change gas limit as 120000 and if send 1 ethereum to our contract 0x6F371CA338bbddd0baF719E1D5d0797cCE20774f  you can get 375 ETR.
-
 ## MEMO FUTURE.
 
 If you use sendtokenwithmemo function you can send ETHEREUM RUSH with alfenumeric text or thats called as memo.
@@ -65,22 +74,9 @@ But if this machine get text too you can send T1 or F1 text with ETHEREUM RUSH a
 
 I dont create an any website ,Automat and other payment gateways because i need check this idea is good or bad.
 
-My contract and miner program (i create this miner program with electron.JS) they are my MVP minimum viewable projects
-and if i receive 200.000 $ (dollar) with this MVP. i think i can change physical world and we can sell new simple/cheap Automat's
-all AROUND THE WORLD!
-THX FOR READ.
 
 
-## Download and start minig.
 
-The Ethereum Mining programs  **[Ethereum RUSH Miner program](https://github.com/Ethereum-Rush/EthereumRushMiner/releases)**, which
-has a Quick Start section.
-
-Operating system | Status
----------------- | ----------
-Max OS X Darwin  | [![TravisCI](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://travis-ci.org/ethereumrush/ethereumrush-github)
-Ubuntu  | [![TravisCI](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://travis-ci.org/ethereumrush/ethereumrush-github)
-Windows 64         | [![AppVeyor](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://ci.appveyor.com/project/ethereumrush/ethereumrush-github)
 
 
 <img src="https://github.com/Ethereum-Rush/ethereum-rush/blob/master/ruchicon.png">
