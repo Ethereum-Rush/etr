@@ -9,7 +9,7 @@ Download miner app and start solo mining in 5 minutes.
 [![GitHub Issues](https://img.shields.io/badge/open%20issues-0-yellow.svg)](https://github.com/Ethereum-Rush/ethereum-rush/issues)
 
 - Chat in [ethereumrush-github channel on Gitter](https://gitter.im/ethereum-rush-offical/community).
-- Report bugs, issues or feature requests using [GitHub issues](issues/new).
+- Report bugs, issues or feature requests using [GitHub issues](https://github.com/Ethereum-Rush/ethereum-rush/issues).
 
 ## Download and start minig.
 
